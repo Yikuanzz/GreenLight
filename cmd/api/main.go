@@ -41,14 +41,10 @@ func main() {
 		logger: logger,
 	}
 
-	// mux 创建 HTTP 服务器并添加路由处理
-	mux := http.NewServeMux()
-	mux.HandleFunc("/v1/healthcheck", app.healthcheckHandler)
-
 	// srv 实例化一个服务器监听端口并提供时延设置
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.port),
-		Handler:      mux,
+		Handler:      app.routes(),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 30 * time.Second,
